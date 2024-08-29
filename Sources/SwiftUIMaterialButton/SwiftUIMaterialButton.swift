@@ -98,7 +98,11 @@ public struct MaterialButtonStyle : ButtonStyle {
                         withAnimation(.easeInOut(duration: 0.2)) {
                             isPressed = false
                         }
-                        action()
+                        if abs(value.translation.width) < 2 && abs(value.translation.height) < 2
+                                && value.location.x >= 0 && value.location.x <= size.width
+                                && value.location.y >= 0 && value.location.y <= size.height {
+                            action()
+                        }
                     }
             )
     }
