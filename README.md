@@ -42,5 +42,5 @@ struct MaterialButtonView : View {
     }
 }
 ```
-![video](./Art/material-button.png)
-![video](./Art/material-button.mov)
+![image](./Art/material-button.png)
+![video](./Art/material-button.gif)
