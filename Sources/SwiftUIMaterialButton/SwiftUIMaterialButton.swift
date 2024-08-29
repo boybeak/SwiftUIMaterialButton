@@ -39,18 +39,17 @@ public struct MaterialButtonStyle : ButtonStyle {
     public let backgroundColor: Color
     public let radius: CGFloat
     public let action: () -> Void
-    public let backgroundColorPressed: Color
+    public let backgroundColorPressed: Color = .white.opacity(0.15)
     
     @State private var isPressed = false
     
     @State private var rippleRadius: CGFloat = 0
     
-    @State private var tapPoint: UnitPoint = .zero
+    @State private var tapPoint: CGPoint = .zero
     @State private var size: CGSize = .zero
     
     public init(backgroundColor: Color, radius: CGFloat, action: @escaping () -> Void) {
         self.backgroundColor = backgroundColor
-        self.backgroundColorPressed = .white.opacity(0.1)
         self.radius = radius
         self.action = action
     }
@@ -64,15 +63,14 @@ public struct MaterialButtonStyle : ButtonStyle {
                     Rectangle()
                         .fill(backgroundColor)
                         .overlay {
-                            if isPressed {
-                                Circle()
-                                    .fill(backgroundColorPressed)
-                                    .offset(x: tapPoint.x - size.width / 2, y: tapPoint.y - size.height / 2)
-                                    .frame(width: rippleRadius * 2, height: rippleRadius * 2)
-                            }
+                            Circle()
+                                .fill(isPressed ? backgroundColorPressed : .clear)
+                                .offset(x: tapPoint.x - size.width / 2, y: tapPoint.y - size.height / 2)
+                                .frame(width: rippleRadius * 2, height: rippleRadius * 2)
                         }
                         .onAppear {
-                            size = reader.size
+                            size.width = reader.size.width
+                            size.height = reader.size.height
                         }
                         .onChange(of: reader.size) {
                             size = reader.size
@@ -92,13 +90,12 @@ public struct MaterialButtonStyle : ButtonStyle {
                             tapPoint.y = value.location.y
 
                             withAnimation(.easeInOut(duration: 0.1)) {
-                                rippleRadius = getEndRadius()
+                                rippleRadius = getRippleRadius()
                             }
                         }
                     }
                     .onEnded { value in
-                        withAnimation(.easeInOut(duration: 0.1)) {
-                            rippleRadius = 0
+                        withAnimation(.easeInOut(duration: 0.2)) {
                             isPressed = false
                         }
                         action()
@@ -106,7 +103,7 @@ public struct MaterialButtonStyle : ButtonStyle {
             )
     }
     
-    private func getEndRadius()-> CGFloat {
+    private func getRippleRadius()-> CGFloat {
         let xLenMax = max(tapPoint.x, size.width - tapPoint.x)
         let yLenMax = max(tapPoint.y, size.height - tapPoint.y)
         
