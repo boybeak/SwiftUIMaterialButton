@@ -1,10 +1,14 @@
 # SwiftUIMaterialButton
 A material design style button for swiftUI with ripple effect.
+![video](./Art/material-button.gif)
 
 ## Installation
 Open XCode, **File** -> **Add Package Denpendencies** -> Search `https://github.com/boybeak/SwiftUIMaterialButton.git` -> **Add Package**.
 
 ## Usage
+
+![image](./Art/material-button.png)
+
 ```swift
 import SwiftUIMaterialButton
 
@@ -42,5 +46,3 @@ struct MaterialButtonView : View {
     }
 }
 ```
-![image](./Art/material-button.png)
-![video](./Art/material-button.gif)
